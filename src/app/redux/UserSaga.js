@@ -28,7 +28,7 @@ export const userWatches = [
     lookupPreviousOwnerAuthorityWatch,
     watchLoadSavingsWithdraw,
     uploadImageWatch,
-    getRecentPrice,
+    getLatestFeedPrice,
 ];
 
 const highSecurityPages = [
@@ -68,12 +68,12 @@ export function* watchRemoveHighSecurityKeys() {
     yield* takeLatest('@@router/LOCATION_CHANGE', removeHighSecurityKeys);
 }
 
-function* getRecentPrice() {
+function* getLatestFeedPrice() {
     const history = yield call([api, api.getFeedHistoryAsync]);
     if (history) {
         const feed = history['price_history'];
         const last = fromJS(feed[feed.length - 1]);
-        yield put(userActions.setPriceFeed(last));
+        yield put(userActions.setLatestFeedPrice(last));
     }
 }
 
